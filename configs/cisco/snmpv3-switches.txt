@@ -1,0 +1,12 @@
+! ---------------------------------------------------------------
+! SNMPv3 on the L2 / L3 switches  -  mode: authNoPriv (SHA)
+! Zabbix server: 12.0.0.2
+! Replace <SNMP_AUTH_PASSWORD> with your own secret.
+! ---------------------------------------------------------------
+conf t
+ snmp-server group ZABBIX_GRP v3 auth
+ snmp-server user zabbix ZABBIX_GRP v3 auth sha <SNMP_AUTH_PASSWORD>
+ snmp-server host 12.0.0.2 version 3 auth zabbix
+ snmp-server enable traps
+end
+wr

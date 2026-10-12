@@ -1,0 +1,15 @@
+! ---------------------------------------------------------------
+! SNMPv3 on the router (and ASA, adapted to ASA syntax) - mode: authPriv
+! (SHA authentication + AES-128 encryption)
+! Zabbix server: 12.0.0.2
+! Replace <SNMP_AUTH_PASSWORD> and <SNMP_PRIV_PASSWORD> with your own secrets.
+!
+! Prerequisites referenced below and not shown in the original report:
+! the view ALL-VIEW and the access list SNMP_ACCESS must exist.
+! Good practice: drop "write ALL-VIEW" so monitoring stays read-only,
+! and limit SNMP_ACCESS to the Zabbix server (12.0.0.2).
+! ---------------------------------------------------------------
+snmp-server group GNS3_GROUP v3 priv read ALL-VIEW write ALL-VIEW access SNMP_ACCESS
+snmp-server user Zabbix_USER GNS3_GROUP v3 auth sha <SNMP_AUTH_PASSWORD> priv aes 128 <SNMP_PRIV_PASSWORD>
+snmp-server enable traps snmp
+snmp-server host 12.0.0.2 version 3 priv Zabbix_USER
